@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Use Croct experimental endpoints
-// @version      0.1
+// @version      0.1.1
 // @license      MIT
 // @author       Fryuni
 // @copyright    2022, Luiz Ferraz
