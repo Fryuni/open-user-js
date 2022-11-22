@@ -1,8 +1,9 @@
 // ==UserScript==
 // @name         Use Croct experimental endpoints
-// @namespace    https://croct.com/
 // @version      0.1
-// @author       Luiz Ferraz
+// @license      MIT
+// @author       Fryuni
+// @copyright    2022, Luiz Ferraz
 // @description  Plugs Croct with the experimental endpoints
 // @match        *
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=croct.com
