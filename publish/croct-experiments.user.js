@@ -4,6 +4,8 @@
 // @license      MIT
 // @author       Fryuni
 // @copyright    2022, Luiz Ferraz
+// @updateURL    https://openuserjs.org/meta/Fryuni/Use_Croct_experimental_endpoints.meta.js
+// @downloadURL  https://openuserjs.org/install/Fryuni/Use_Croct_experimental_endpoints.user.js
 // @description  Plugs Croct with the experimental endpoints
 // @match        *
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=croct.com
@@ -65,6 +67,8 @@ document.addEventListener('keydown', event => {
         evaluationEndpointUrl: GM_config.get('evaluation-endpoint'),
       },
     };
+
+    console.log('Configuring croct plug with:', config);
 
     croct.unplug();
     croct.plug(config);
