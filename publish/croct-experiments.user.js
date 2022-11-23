@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Use Croct experimental endpoints
-// @version      0.1.1
+// @version      0.2.0
 // @license      MIT
 // @author       Fryuni
 // @copyright    2022, Luiz Ferraz
@@ -9,7 +9,7 @@
 // @description  Plugs Croct with the experimental endpoints
 // @match        *
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=croct.com
-// @run-at       document-start
+// @run-at       document-body
 // @require      https://openuserjs.org/src/libs/sizzle/GM_config.js
 // @grant        GM_getValue
 // @grant        GM_setValue
