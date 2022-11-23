@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Use Croct experimental endpoints
-// @version      0.2.1
+// @version      0.2.2
 // @license      MIT
 // @author       Fryuni
 // @copyright    2022, Luiz Ferraz
@@ -46,8 +46,6 @@ GM_config.init({
 
 document.addEventListener('keydown', event => {
   if (!(event instanceof KeyboardEvent)) return;
-
-  console.log(event);
 
   if (event.code === 'KeyC' && event.ctrlKey && event.altKey) {
     GM_config.open();
