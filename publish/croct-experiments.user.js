@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Use Croct experimental endpoints
-// @version      0.2.4
+// @version      0.2.5
 // @license      MIT
 // @author       Fryuni
 // @copyright    2022, Luiz Ferraz
@@ -18,7 +18,9 @@
 (function() {
   'use strict';
 
-  if (window.croct !== undefined) {
+  const croct = window.croct ?? unsafeWindow.croct;
+
+  if (croct !== undefined) {
     GM_config.init({
       id: 'croct-experiments',
       fields: {
