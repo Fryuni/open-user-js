@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Use Croct experimental endpoints
-// @version      0.2.2
+// @version      0.2.3
 // @license      MIT
 // @author       Fryuni
 // @copyright    2022, Luiz Ferraz
@@ -15,47 +15,47 @@
 // @grant        GM_setValue
 // ==/UserScript==
 
-GM_config.init({
-  id: 'croct-experiments',
-  fields: {
-    'enable-debug': {
-      label: 'Enable Croct debug logs',
-      type: 'checkbox',
-      default: false,
-    },
-    'change-evaluation': {
-      label: 'Use custom evaluation endpoint',
-      type: 'checkbox',
-      default: false,
-    },
-    'evaluation-endpoint': {
-      'label': 'Evaluation URL',
-      'type': 'select',
-      'options': [
-        'https://experiments.croct.tech/client/web/evaluate',
-        'https://api.croct.io/alpha/client/web/evaluate',
-        'https://api.croct.io/beta/client/web/evaluate',
-      ],
-      'default': 'https://api.croct.io/beta/client/web/evaluate',
-    },
-  },
-  events: {
-    close: () => { window.location.reload(); },
-  },
-});
-
-document.addEventListener('keydown', event => {
-  if (!(event instanceof KeyboardEvent)) return;
-
-  if (event.code === 'KeyC' && event.ctrlKey && event.altKey) {
-    GM_config.open();
-  }
-});
-
 (function() {
   'use strict';
 
   if (croct !== undefined) {
+    GM_config.init({
+      id: 'croct-experiments',
+      fields: {
+        'enable-debug': {
+          label: 'Enable Croct debug logs',
+          type: 'checkbox',
+          default: false,
+        },
+        'change-evaluation': {
+          label: 'Use custom evaluation endpoint',
+          type: 'checkbox',
+          default: false,
+        },
+        'evaluation-endpoint': {
+          'label': 'Evaluation URL',
+          'type': 'select',
+          'options': [
+            'https://experiments.croct.tech/client/web/evaluate',
+            'https://api.croct.io/alpha/client/web/evaluate',
+            'https://api.croct.io/beta/client/web/evaluate',
+          ],
+          'default': 'https://api.croct.io/beta/client/web/evaluate',
+        },
+      },
+      events: {
+        close: () => { window.location.reload(); },
+      },
+    });
+
+    document.addEventListener('keydown', event => {
+      if (!(event instanceof KeyboardEvent)) return;
+
+      if (event.code === 'KeyC' && event.ctrlKey && event.altKey) {
+        GM_config.open();
+      }
+    });
+
     // Keep the existing App ID
     const previousAppId = croct.instance.sdk.appId;
 
