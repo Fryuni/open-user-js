@@ -9,6 +9,7 @@
 // @description  Plugs Croct with the experimental endpoints
 // @match        *
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=croct.com
+// @run-at       document-start
 // @require      https://openuserjs.org/src/libs/sizzle/GM_config.js
 // @grant        GM_getValue
 // @grant        GM_setValue
