@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         Use Croct experimental endpoints
-// @version      0.2.0
+// @version      0.2.1
 // @license      MIT
 // @author       Fryuni
 // @copyright    2022, Luiz Ferraz
 // @updateURL    https://openuserjs.org/meta/Fryuni/Use_Croct_experimental_endpoints.meta.js
 // @downloadURL  https://openuserjs.org/install/Fryuni/Use_Croct_experimental_endpoints.user.js
-// @description  Plugs Croct with the experimental endpoints
+// @description  Plugs Croct with the experimental endpoints. Configurable with Ctrl+Alt+C.
 // @match        *
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=croct.com
 // @run-at       document-body
