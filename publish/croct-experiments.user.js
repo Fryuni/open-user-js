@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Use Croct experimental endpoints
-// @version      0.3.0-beta1
+// @version      0.3.0-beta2
 // @license      MIT
 // @author       Fryuni
 // @copyright    2022, Luiz Ferraz
@@ -133,5 +133,3 @@ const url = GM_config.get('fetch-eap-endpoint');
     window.croctEap = unsafeWindow.croctEap = injectEap(croct, croctEap);
   }
 })();
-
-function injectEap()
