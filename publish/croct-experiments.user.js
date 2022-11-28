@@ -23,7 +23,7 @@ function injectEap(croct, croctEap) {
   return Object.assign(croctEap, {
     ...GM_config.get('hijack-fetch-eap') && {
       fetch: async (slotId, options) => {
-const url = GM_config.get('fetch-eap-endpoint');
+        const url = GM_config.get('fetch-eap-endpoint');
 
         const headers = new Headers();
 
@@ -32,14 +32,25 @@ const url = GM_config.get('fetch-eap-endpoint');
         headers.set('X-Organization-Id', GM_config.get('dev-organization'));
         headers.set('X-Workspace-Id', GM_config.get('dev-workspace'));
         headers.set('X-Application-Id', GM_config.get('dev-application'));
+        headers.set('X-Visitor-Id', '00000000-0000-0000-0000-000000000000');
+        headers.set('X-Client-Id', await croct.instance.sdk.cidAssigner.assignCid());
 
-        return fetch(url, {
+        headers.set('Content-Type', 'application/json');
+
+        const response = await fetch(url, {
+          method: 'POST',
           headers,
           mode: 'cors',
           credentials: 'omit',
           cache: 'no-cache',
-        })
-          .then(resp => resp.json());
+          body: JSON.stringify({
+            slotId,
+          }),
+        });
+
+        const data = await response.json();
+
+        return { payload: data.content };
       },
     },
   })
