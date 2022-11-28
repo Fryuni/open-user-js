@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         Use Croct experimental endpoints
-// @version      0.2.5
+// @version      0.3.0-beta1
 // @license      MIT
 // @author       Fryuni
 // @copyright    2022, Luiz Ferraz
 // @updateURL    https://openuserjs.org/meta/Fryuni/Use_Croct_experimental_endpoints.meta.js
 // @downloadURL  https://openuserjs.org/install/Fryuni/Use_Croct_experimental_endpoints.user.js
 // @description  Plugs Croct with the experimental endpoints. Configurable with Ctrl+Alt+C.
-// @match        *
+// @match        **/**
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=croct.com
 // @run-at       document-body
 // @require      https://openuserjs.org/src/libs/sizzle/GM_config.js
@@ -15,15 +15,61 @@
 // @grant        GM_setValue
 // ==/UserScript==
 
-(function() {
+
+function injectEap(croct, croctEap) {
+  const originalEap = { ...croctEap };
+
+  // Return and mutate in-place. Works in as many browser isolations as possible.
+  return Object.assign(croctEap, {
+    ...GM_config.get('hijack-fetch-eap') && {
+      fetch: async (slotId, options) => {
+const url = GM_config.get('fetch-eap-endpoint');
+
+        const headers = new Headers();
+
+        // Constants for experimental environments.
+        // TODO: Drop this once PMS is released.
+        headers.set('X-Organization-Id', GM_config.get('dev-organization'));
+        headers.set('X-Workspace-Id', GM_config.get('dev-workspace'));
+        headers.set('X-Application-Id', GM_config.get('dev-application'));
+
+        return fetch(url, {
+          headers,
+          mode: 'cors',
+          credentials: 'omit',
+          cache: 'no-cache',
+        })
+          .then(resp => resp.json());
+      },
+    },
+  })
+}
+
+(async function() {
   'use strict';
 
+  const croctEap = window.croctEap ?? unsafeWindow.croctEap ?? {};
   const croct = window.croct ?? unsafeWindow.croct;
 
   if (croct !== undefined) {
     GM_config.init({
       id: 'croct-experiments',
       fields: {
+        'dev-organization': {
+          label: 'Organization ID',
+          type: 'uuid',
+          default: 'd23da44c-470e-439c-84d0-27c04f5c9f1d',
+        },
+        'dev-workspace': {
+          label: 'Workspace ID',
+          type: 'uuid',
+          default: 'f65133ea-e745-4f6c-bc2e-542be9b1681d',
+        },
+        'dev-application': {
+          label: 'Application ID',
+          type: 'uuid',
+          default: croct.instance.sdk.appId,
+        },
         'enable-debug': {
           label: 'Enable Croct debug logs',
           type: 'checkbox',
@@ -35,14 +81,27 @@
           default: false,
         },
         'evaluation-endpoint': {
-          'label': 'Evaluation URL',
-          'type': 'select',
-          'options': [
+          label: 'Evaluation URL',
+          type: 'select',
+          options: [
             'https://experiments.croct.tech/client/web/evaluate',
             'https://api.croct.io/alpha/client/web/evaluate',
             'https://api.croct.io/beta/client/web/evaluate',
           ],
-          'default': 'https://api.croct.io/beta/client/web/evaluate',
+          default: 'https://api.croct.io/beta/client/web/evaluate',
+        },
+        'hijack-fetch-eap': {
+          label: 'Hijack Fetch EAP',
+          type: 'checkbox',
+          default: false,
+        },
+        'fetch-eap-endpoint': {
+          label: 'Fetch EAP Endpoint',
+          type: 'select',
+          options: [
+            'https://content-service-xzexsnymka-rj.a.run.app/content',
+          ],
+          default: 'https://content-service-xzexsnymka-rj.a.run.app/content',
         },
       },
       events: {
@@ -58,11 +117,8 @@
       }
     });
 
-    // Keep the existing App ID
-    const previousAppId = croct.instance.sdk.appId;
-
     const config = {
-      appId: previousAppId,
+      appId: GM_config.get('dev-application'),
       debug: GM_config.get('enable-debug'),
       ...GM_config.get('change-evaluation') && {
         evaluationEndpointUrl: GM_config.get('evaluation-endpoint'),
@@ -73,5 +129,9 @@
 
     croct.unplug();
     croct.plug(config);
+
+    window.croctEap = unsafeWindow.croctEap = injectEap(croct, croctEap);
   }
 })();
+
+function injectEap()
